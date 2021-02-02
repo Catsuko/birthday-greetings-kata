@@ -1,11 +1,11 @@
 class Letter
-  def initialize(template, details: {})
+  def initialize(template, details = {})
     @template = template
     @details = details
   end
 
   def fill(details)
-    Letter.new(@template, details: @details.merge(details))
+    Letter.new(@template, **@details.merge(details))
   end
 
   def to_s
