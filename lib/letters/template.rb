@@ -5,6 +5,10 @@ module Letters
       @details = details
     end
 
+    def send_to(person, via:)
+      via.deliver(self.to_s, to: person)
+    end
+
     def fill(details)
       Template.new(@template, **@details.merge(details))
     end

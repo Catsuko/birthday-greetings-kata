@@ -53,7 +53,6 @@ Person could start as a hash but eventually we'd like to add variants where deta
 - console output -> requires nothing
 - push notification -> requires device token
 
-
 ---
 
 letter - send_to -> person
