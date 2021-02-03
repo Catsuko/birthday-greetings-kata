@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-RSpec.describe Letter do
+RSpec.describe Letters::Template do
   describe 'filling out a letter' do
     let(:template) { 'Hello, {name}' }
     let(:name) { 'Lewis' }
-    let(:letter) { Letter.new(template) }
+    let(:letter) { described_class.new(template) }
     subject { letter.fill(name: name).to_s }
 
     it { is_expected.to include name }
 
     context 'when letter already has details' do
-      let(:letter) { Letter.new(template, name: 'Shannon') }
+      let(:letter) { described_class.new(template, name: 'Shannon') }
 
       it 'overrides previously filled out detail' do
         is_expected.to include name

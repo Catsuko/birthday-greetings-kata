@@ -45,7 +45,7 @@ Person needs to communicate delivery specific details that change based on the d
 ```
 Person is just a hash at this point, What responsibility does a person have in this system?
 
-Person could start as a hash but eventually we'd like to add variants where details are retrieved from a csv file. Details could also come from a database or 
+Person could start as a hash but eventually we'd like to add variants where details are retrieved from a csv file. Details could also come from a database or api. 
 
 ### Future Considerations
 
