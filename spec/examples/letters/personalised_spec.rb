@@ -18,10 +18,6 @@ RSpec.describe Letters::Personalised do
     it 'decorated letter is filled out' do
       expect(subject.to_s).to eq letter.fill(name: name).to_s
     end
-
-    it 'result is decorated' do
-      expect(subject.class).to eq described_class
-    end
   end
 
   describe 'sending a personalised letter' do
@@ -33,7 +29,7 @@ RSpec.describe Letters::Personalised do
 
     it 'delivered message is personalised' do
       subject
-      expect(medium).to have_received(:deliver).with(person.fill(personal_letter).to_s, to: person)
+      expect(medium).to have_received(:deliver).with(person.fill_out(personal_letter).to_s, to: person)
     end
   end
 end

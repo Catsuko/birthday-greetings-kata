@@ -4,7 +4,7 @@ module People
       @details = details
     end
 
-    def fill(media)
+    def fill_out(media)
       media.fill(**@details)
     end
   end

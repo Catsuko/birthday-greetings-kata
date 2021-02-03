@@ -18,9 +18,6 @@ RSpec.describe Letters::Template do
     end
   end
 
-  # What are the responsibilities of a person?
-  # What are the responsibilities of an delivery medium?
-  # Does a design like this work with the idea of a composite person class?
   describe 'sending a letter' do
     let(:person) { spy('Person') }
     let(:medium) { spy('Email') }

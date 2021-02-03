@@ -59,7 +59,19 @@ letter - send_to -> person
 
 medium - deliver -> message - to -> person
 
-person - provide contact information -> 
+person - provide contact information ->
+
+It would be nice to end up with something like:
+
+```
+greeting = Letters::Personalised.new(Letters::Template.new('hello {name}!'))
+recipients = People::Composite.new(
+  People::FromHash.new(name: 'Lewis'), 
+  People::FromCSV.new('other_people.csv')
+)
+delivery_method = Delivery::SmtpEmailClient.new('google.smtp.com', port: 487, from: 'system@gmail.com')
+recipients.receive(greeting, via: delivery_method)
+```
 
 
 
