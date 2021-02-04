@@ -73,7 +73,14 @@ delivery_method = Delivery::SmtpEmailClient.new('google.smtp.com', port: 487, fr
 recipients.receive(greeting, via: delivery_method)
 ```
 
+---
 
+The `receive` method for `People::FromHash` is not right, if we were to derive siblings that were based on HTTP\DB\CSV then this method would be implemented the same way. Is the code suggesting:
+
+1. Receive is not a valid responsibility, can we remove it whilst still preserving the nice behaviour of a composite person?
+2. The attributes for a person should be abstracted one layer down. FromHashStrategy etc
+
+Next step should be planning how a person can submit their contact information to the delivery method. Past self thought it could be a good idea to treat it like filling out a letter -> filling out a delivery form or something.
 
 
         
