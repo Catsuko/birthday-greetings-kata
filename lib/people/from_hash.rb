@@ -7,5 +7,9 @@ module People
     def fill_out(media)
       media.fill(**@details)
     end
+
+    def receive(letter, via:)
+      letter.send_to(self, via: via)
+    end
   end
 end

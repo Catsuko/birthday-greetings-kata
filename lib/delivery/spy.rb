@@ -17,6 +17,10 @@ module Delivery
       @messages.count(message)
     end
 
+    def delivered_matching_message?(pattern)
+      @messages.any? { |message| message.match?(pattern) }
+    end
+
     def delivered_to?(recipient)
       @recipients.count(recipient)
     end
