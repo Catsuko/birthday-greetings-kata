@@ -1,6 +1,6 @@
 I want to be able to send messages to people.
 
-When we make add new features to the system we want to be able to replace or enhance existing components with new components rather than modify existing components.
+When we add new features to the system we want to be able to replace or enhance existing components with new components rather than modify existing components.
 
 ## Letter
 
