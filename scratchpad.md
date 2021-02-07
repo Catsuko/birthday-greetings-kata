@@ -94,3 +94,5 @@ In the future when we look at implementing the birthday requirements, ideally I'
 How can this check be modelled without exposing an accessor to the birthday data?
 
 Maybe a rule\policy object can be introduced and birthday only letter becomes Letters::Conditional. A conditional letter is given a policy that must be met in order to send the letter. BirthdayOnly would become a policy that gets checked before sending and if it fails then no letter is sent. Then we can freely compose these rules around sending letters conditionally.
+
+When I was first fleshing out the design of the Person object, I felt like its responsibilities were weak but the behaviour of filling out details is starting to be useful outside of the personalised letters too. Filling out contact information for a delivery method and filling out a policy for evaluation are looming on the horizon!
