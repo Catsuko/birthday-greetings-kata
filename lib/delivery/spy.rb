@@ -1,6 +1,5 @@
 module Delivery
   class Spy
-
     def initialize
       @recipients = []
       @messages = []
@@ -24,6 +23,5 @@ module Delivery
     def delivered_to?(recipient)
       @recipients.count(recipient)
     end
-
   end
 end
