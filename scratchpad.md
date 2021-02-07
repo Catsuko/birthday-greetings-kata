@@ -82,5 +82,15 @@ The `receive` method for `People::FromHash` is not right, if we were to derive s
 
 Next step should be planning how a person can submit their contact information to the delivery method. Past self thought it could be a good idea to treat it like filling out a letter -> filling out a delivery form or something.
 
+---
 
-        
+In the future when we look at implementing the birthday requirements, ideally I'd like to have something like:
+
+```
+  # Letters::BirthdayOnly - decorates -> Letter
+  # A Birthday only letter will only send to a person if it is their birthday
+```
+
+How can this check be modelled without exposing an accessor to the birthday data?
+
+Maybe a rule\policy object can be introduced and birthday only letter becomes Letters::Conditional. A conditional letter is given a policy that must be met in order to send the letter. BirthdayOnly would become a policy that gets checked before sending and if it fails then no letter is sent. Then we can freely compose these rules around sending letters conditionally.
