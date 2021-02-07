@@ -96,3 +96,9 @@ How can this check be modelled without exposing an accessor to the birthday data
 Maybe a rule\policy object can be introduced and birthday only letter becomes Letters::Conditional. A conditional letter is given a policy that must be met in order to send the letter. BirthdayOnly would become a policy that gets checked before sending and if it fails then no letter is sent. Then we can freely compose these rules around sending letters conditionally.
 
 When I was first fleshing out the design of the Person object, I felt like its responsibilities were weak but the behaviour of filling out details is starting to be useful outside of the personalised letters too. Filling out contact information for a delivery method and filling out a policy for evaluation are looming on the horizon!
+
+---
+
+New feature wanted: See the contents of delivery in standard output. Able to add this by defining a new delivery method which can then collaborate as if it were actually delivering messages to people! No existing code changes needed. 
+
+Additionally say we wanted to log alongside sending messages then we still don't need to modify existing delivery methods. We could define a composite delivery method and then have it consist of an actual delivery method as well as the logging object.
