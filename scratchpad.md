@@ -102,3 +102,14 @@ When I was first fleshing out the design of the Person object, I felt like its r
 New feature wanted: See the contents of delivery in standard output. Able to add this by defining a new delivery method which can then collaborate as if it were actually delivering messages to people! No existing code changes needed. 
 
 Additionally say we wanted to log alongside sending messages then we still don't need to modify existing delivery methods. We could define a composite delivery method and then have it consist of an actual delivery method as well as the logging object.
+
+---
+
+Certain delivery methods require information before they can send, e.g. Smtp needs your email address, push notifications need a device token. The Filled decorator can be paired with such methods to achieve this. Before delivering it will tell the person to first fill out the underlying method as they would a letter. In my mind I likened this to filling out a envelope before sending it at the post office although it could have also been acheived with a different `deliver` signature like:
+
+```ruby
+def deliver(message, to:, details:)
+end
+```
+
+This is probably also a bit easier to understand to be honest. The other problem here is that Smtp does not actually use the `to` argument. Instead it relies on the constructor to provide the `to_address` which feels misleading. I would feel misled if by doing `deliver('Hello', to: Person)`, I'm not actually sending the message to `Person`! 

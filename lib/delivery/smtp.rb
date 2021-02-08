@@ -5,6 +5,7 @@ module Delivery
     end
 
     def deliver(message, to:)
+      puts "#{message} to: #{@to_address}, #{to}"
       self
     end
 

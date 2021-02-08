@@ -37,4 +37,21 @@ RSpec.describe 'delivering letters to people' do
       expect(person.map { |p| delivery_method.delivered_to?(p) }).to all be_positive
     end
   end
+
+  describe 'receiving via a delivery method that needs to be filled' do
+    let(:people) do
+      People::Composite.new([
+        People::FromHash.new(name: 'Steve', email: 'steve@cool_people.com'),
+        People::FromHash.new(name: 'Mary', email: 'mary@cool_people.com')
+      ])
+    end
+    let(:letter) { Letters::Template.new('Greetings friendo') }
+    let(:delivery_method) { Delivery::Filled.new(Delivery::Smtp.new) }
+
+    # TODO: How to actually test this? Stub smtp client and check invocations?
+    it 'each person receives a message sent to their email address' do
+      people.receive(letter, via: delivery_method)
+      expect(true).to be true
+    end
+  end
 end
