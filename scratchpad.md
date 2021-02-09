@@ -112,4 +112,14 @@ def deliver(message, to:, details:)
 end
 ```
 
-This is probably also a bit easier to understand to be honest. The other problem here is that Smtp does not actually use the `to` argument. Instead it relies on the constructor to provide the `to_address` which feels misleading. I would feel misled if by doing `deliver('Hello', to: Person)`, I'm not actually sending the message to `Person`! 
+This is probably also a bit easier to understand to be honest. The other problem here is that Smtp does not actually use the `to` argument. Instead it relies on the constructor to provide the `to_address` which feels misleading. I would feel misled if by doing `deliver('Hello', to: Person)`, I'm not actually sending the message to `Person`!
+
+---
+
+After considering the issues mentioned in the previous section, I decided to simplify how letters are filled out and sent by people. I reworked the `fill_out` method to yield a person's details to a block rather than push them into some object and return it. Here are some benefits:
+
+- no more `person.receive`, instead we eliminate the extra dispatch and return to our original goal of `letter.send_to(person, via: email)`
+- no more personalised decorator, template will fill itself out when sending. This also means we lost the ability to fill out a template by one person and send it to another but this behaviour is not that important to me just yet and I think it could be brought back easily.
+- `fill_out` methods on composite objects is much more useful. Previously, all people would be filling out one template which would continously override the details. Now the composite objects forward the request to the children and each child calls the block. I think this will prove even more beneficial since our birthday only decorator will be able to skip filling out details for non birthday people.
+
+Next go back and fill out the test coverage for current behaviour, it is lacking at the moment.
