@@ -1,16 +1,9 @@
 module Delivery
   class Smtp
-    def initialize(to_address: nil)
-      @to_address = to_address
-    end
-
     def deliver(message, to:)
-      puts "#{message} to: #{@to_address}, #{to}"
-      self
-    end
-
-    def fill(details)
-      Smtp.new(to_address: details.fetch(:email, nil))
+      to.fill_out do |details|
+        puts "Send #{message} to #{details}"
+      end
     end
   end
 end

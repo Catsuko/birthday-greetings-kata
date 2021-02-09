@@ -1,17 +1,11 @@
+require_relative '../extensions/composite'
+
 module People
   class Composite
-    include Enumerable
+    include ::Extensions::Composite
 
     def initialize(people = [])
       @people = people
-    end
-
-    def receive(letter, via:)
-      @people.each { |person| person.receive(letter, via: via) }
-    end
-
-    def fill_out(media)
-      @people.inject(media) { |media, person| person.fill_out(media ) }
     end
 
     def each(&block)

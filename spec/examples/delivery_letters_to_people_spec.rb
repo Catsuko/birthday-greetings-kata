@@ -2,12 +2,12 @@ require 'spec_helper'
 
 RSpec.describe 'delivering letters to people' do
   let(:delivery_method) { Delivery::Spy.new }
-  subject { person.receive(letter, via: delivery_method) }
+  subject { letter.send_to(person, via: delivery_method) }
 
   describe 'receiving a personalised greeting' do
     let(:name) { 'Lewis' }
     let(:person) { People::FromHash.new(name: name) }
-    let(:letter) { Letters::Personalised.new(Letters::Template.new('Hello {name}!')) }
+    let(:letter) { Letters::Template.new('Hello {name}!') }
 
     it 'person receives the message' do
       expect { subject }.to change {
@@ -17,8 +17,8 @@ RSpec.describe 'delivering letters to people' do
 
     it 'message is personalised' do
       expect { subject }.to change {
-        delivery_method.delivered_matching_message?(/#{name}/)
-      }.to(true)
+        delivery_method.delivered_message?(/#{name}/)
+      }.by(1)
     end
   end
 
@@ -46,11 +46,11 @@ RSpec.describe 'delivering letters to people' do
       ])
     end
     let(:letter) { Letters::Template.new('Greetings friendo') }
-    let(:delivery_method) { Delivery::Filled.new(Delivery::Smtp.new) }
+    let(:delivery_method) { Delivery::Smtp.new }
 
     # TODO: How to actually test this? Stub smtp client and check invocations?
     it 'each person receives a message sent to their email address' do
-      people.receive(letter, via: delivery_method)
+      letter.send_to(people, via: delivery_method)
       expect(true).to be true
     end
   end

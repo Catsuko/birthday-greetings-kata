@@ -12,12 +12,8 @@ module Delivery
       end
     end
 
-    def delivered_message?(message)
-      @messages.count(message)
-    end
-
-    def delivered_matching_message?(pattern)
-      @messages.any? { |message| message.match?(pattern) }
+    def delivered_message?(pattern)
+      @messages.select { |message| message.match?(pattern) }.size
     end
 
     def delivered_to?(recipient)

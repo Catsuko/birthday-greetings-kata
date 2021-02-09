@@ -1,20 +1,13 @@
 require 'csv'
 require_relative './from_hash'
+require_relative '../extensions/composite'
 
 module People
   class FromCSV
-    include Enumerable
+    include ::Extensions::Composite
 
     def initialize(csv_path)
       @csv_path = csv_path
-    end
-
-    def fill_out(media)
-      each { |person| person.fill_out(media) }
-    end
-
-    def receive(letter, via:)
-      each { |person| person.receive(letter, via: via) }
     end
 
     def each

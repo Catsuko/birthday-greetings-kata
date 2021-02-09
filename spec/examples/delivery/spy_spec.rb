@@ -8,7 +8,7 @@ RSpec.describe Delivery::Spy do
 
     it 'messages are captured' do
       expect { subject.deliver(message, to: recipient) }.to change { 
-        subject.delivered_message?(message) 
+        subject.delivered_message?(/#{message}/) 
       }.by(1)
     end
 

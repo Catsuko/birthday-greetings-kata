@@ -1,21 +1,20 @@
 module Letters
   class Template
-    def initialize(template, details = {})
+    def initialize(template)
       @template = template
-      @details = details
     end
 
     def send_to(person, via:)
-      via.deliver(self.to_s, to: person)
+      person.fill_out do |recipient, details|
+        via.deliver(format(details), to: recipient)
+      end
     end
 
-    def fill(details)
-      Template.new(@template, **@details.merge(details))
-    end
+  private
 
-    def to_s
-      @details.reduce(@template) do |str, (k, v)|
-        str.gsub(/{#{k}}/, v)
+    def format(details)
+      details.reduce(@template) do |message, (k, v)|
+        message.gsub(/{#{k}}/, v)
       end
     end
   end
