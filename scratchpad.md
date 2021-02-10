@@ -123,3 +123,32 @@ After considering the issues mentioned in the previous section, I decided to sim
 - `fill_out` methods on composite objects is much more useful. Previously, all people would be filling out one template which would continously override the details. Now the composite objects forward the request to the children and each child calls the block. I think this will prove even more beneficial since our birthday only decorator will be able to skip filling out details for non birthday people.
 
 Next go back and fill out the test coverage for current behaviour, it is lacking at the moment.
+
+---
+
+Refactored the composite people object to a generic delegator class, the logic stays the same but now it can be applied to anything. Check the sending specs for an example of sending letters to multiple people as well as sending multiple letters to one person, all enabled by the composite delegator. It works well with objects that adhere to [east-oriented coding](https://www.saturnflyer.com/blog/the-4-rules-of-east-oriented-code-rule-1).
+
+Next was introducing a decorator only sends letters to people that match a certain condition. At the moment, the decorator asks the person to print itself and then forwards the details to the policy the check if the condition is met. I would like to rework this so that the policy <-> person interaction is a bit smoother with the decorator playing less of a mediator role.
+
+```ruby
+policy.evaluate?(person)
+# rather than
+person.fill_out { |person, details| policy.evaluate?(details) }
+```
+
+It will be nice to introduce boolean policy objects in the future to support:
+- `AND`
+- `OR`
+- `NOT`
+
+So we can compose complex rules:
+
+```ruby
+Policies::And.new(Policies::Matched.new(name: /a/i), Policies::BirthdayOn.new(today))
+Policies::Not.new(Policies::BirthdayOn.new(today)) # Boohoo
+```
+
+Next steps:
+- Birthday Value Object
+- Conversion of date to value object in FromCSV
+- Policy for birthday users
