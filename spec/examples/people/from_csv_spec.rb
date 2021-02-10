@@ -2,31 +2,28 @@ require 'spec_helper'
 require 'csv'
 
 RSpec.describe People::FromCSV do
-  describe 'receiving letters' do
-    let(:csv_path) { 'spec\support\data\birthdays.csv' }
+  describe 'filling out details' do
     let(:delivery_spy) { Delivery::Spy.new }
-    let(:letter) { Letters::Template.new('Hello CSV People!') }
-    subject { letter.send_to(described_class.new(csv_path), via: delivery_spy) }
+    let(:csv_path) { 'spec\support\data\birthdays.csv' }
+    subject { described_class.new(csv_path) }
 
-    context 'when csv is fully formed' do
-      let(:row_count) { File.open(csv_path) { |f| f.readlines.size - 1 } }
+    it 'block is invoked once per row' do
+      row_count = File.open(csv_path) { |f| f.readlines.size - 1 }
+      expect { |b| subject.fill_out(&b) }.to yield_control.exactly(row_count).times
+    end
 
-      it 'a letter is delivered to each person listed in the csv' do
-        expect { subject }.to change { delivery_spy.delivered_message?(/./) }.by(row_count)
+    it 'all columns are provided' do
+      expected_keys = CSV.open(csv_path, &:readline).map(&:to_sym)
+      subject.fill_out do |_person, details|
+        expect(details.keys).to include(*expected_keys)
       end
     end
 
-    context 'when letter is personalised' do
-      let(:attribute) { 'first_name' }
-      let(:letter) { Letters::Template.new("Hello {#{attribute}}") }
-      let(:names) { CSV.read(csv_path, headers: true).map { |row| row[attribute] } }
-
-      it 'letters are filled out with details from the csv' do
-        subject
-        names.each do |name|
-          expect(delivery_spy.delivered_message?(/#{name}/)).to be_positive
-        end
+    it 'each row provides details' do
+      expected = CSV.read(csv_path, headers: true).map do
+        |row| [anything, row.to_h.transform_keys(&:to_sym)]
       end
+      expect { |b| subject.fill_out(&b) }.to yield_successive_args(*expected)
     end
   end
 end
