@@ -50,4 +50,24 @@ RSpec.describe 'sending letters' do
       end
     end
   end
+
+  describe 'when sending letters to people with certain details' do
+    let(:lisa) { People::FromHash.new(name: 'Lisa') }
+    let(:bart) { People::FromHash.new(name: 'Bart') }
+    let(:person) { Extensions::CompositeDelegator.new([lisa, bart]) }
+    let(:letter) do
+      Letters::Conditional.new(
+        Letters::Template.new('Hey Bart'),
+        policy: Policies::Matched.new(name: /\Ab/i)
+      )
+    end
+
+    it 'letter is delivered to person with name starting with B' do
+      expect { subject }.to change { delivery_method.delivered_to?(bart) }.by(1)
+    end
+
+    it 'letter is not delivered to person with name starting with L' do
+      expect { subject }.not_to change { delivery_method.delivered_to?(lisa) }
+    end
+  end
 end
