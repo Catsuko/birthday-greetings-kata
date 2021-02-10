@@ -37,4 +37,17 @@ RSpec.describe 'sending letters' do
       expect(person.map { |p| delivery_method.delivered_to?(p) }).to all be_positive
     end
   end
+
+  describe 'when sending multiple letters' do
+    let(:person) { People::FromHash.new(name: 'Alphonse') }
+    let(:messages) { %w[Hello What Goodbye] }
+    let(:letter) { Extensions::CompositeDelegator.new(messages.map { |message| Letters::Template.new(message) }) }
+
+    it 'each letter is delivered' do
+      subject
+      messages.each do |message|
+        expect(delivery_method.delivered_message?(/#{message}/)).to be_positive
+      end
+    end
+  end
 end
