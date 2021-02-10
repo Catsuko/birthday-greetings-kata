@@ -24,7 +24,7 @@ RSpec.describe 'sending letters' do
 
   describe 'when there are multiple recipients' do
     let(:person) do
-      People::Composite.new([
+      Extensions::CompositeDelegator.new([
         People::FromHash.new(name: 'Steve'),
         People::FromHash.new(name: 'Sarah'),
         People::FromHash.new(name: 'Terry')

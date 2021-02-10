@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe People::Composite do
+RSpec.describe Extensions::CompositeDelegator do
   let(:individuals) do
     [
       People::FromHash(name: 'Burgundy'),
@@ -8,7 +8,7 @@ RSpec.describe People::Composite do
       People::FromHash(name: 'Steve')
     ]
   end
-  subject { People::Composite.new(individuals) }
+  subject { described_class.new(individuals) }
 
   describe 'filling out details' do
     it 'each individual provides details' do
