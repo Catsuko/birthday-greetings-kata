@@ -4,7 +4,7 @@ RSpec.describe 'sending letters' do
   let(:delivery_method) { Delivery::Spy.new }
   subject { letter.send_to(person, via: delivery_method) }
 
-  context 'when letter is can be personlised' do
+  context 'when letter can be personlised' do
     let(:name) { 'Lewis' }
     let(:person) { People::FromHash.new(name: name) }
     let(:letter) { Letters::Template.new('Hello {name}!') }
