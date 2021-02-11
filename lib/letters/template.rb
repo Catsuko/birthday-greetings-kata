@@ -14,7 +14,7 @@ module Letters
 
     def format(details)
       details.reduce(@template) do |message, (k, v)|
-        message.gsub(/{#{k}}/, v)
+        message.gsub(/{#{k}}/, v.to_s)
       end
     end
   end

@@ -70,4 +70,42 @@ RSpec.describe 'sending letters' do
       expect { subject }.not_to change { delivery_method.delivered_to?(lisa) }
     end
   end
+
+  describe 'when sending letters to people on their birthdays' do
+    let(:current_date) { Date.parse('11th May 2021') }
+    let(:lucky) { People::FromHash.new(name: 'Lucky', date_of_birth: Date.parse('11th May 1990')) }
+    let(:bones) { People::FromHash.new(name: 'Bones', date_of_birth: Date.parse('4th April 1989')) }
+    let(:person) { Core::CompositeDelegator.new([lucky, bones]) }
+    let(:letter) do
+      Letters::Conditional.new(
+        Letters::Template.new('Happy Birthday {name}'),
+        policy: Policies::AnnualEvent.new(Proc.new { current_date }, key: :date_of_birth)
+      )
+    end
+
+    it 'letter is delivered to the birthday dog' do
+      expect { subject }.to change { delivery_method.delivered_to?(lucky) }.by(1)
+    end
+
+    it 'letter is not delivered to the other dog' do
+      expect { subject }.not_to change { delivery_method.delivered_to?(bones) }
+    end
+
+    context 'when from csv' do
+      let(:current_date) { Date.parse('8th October 2021') }
+      let(:csv_path) { 'spec\support\data\birthdays.csv' }
+      let(:person) { People::FromCSV.new(csv_path) }
+
+      it 'letter is delivered to person whose birthday it is' do
+        expect { subject }.to change { delivery_method.delivered_to?(person.first) }.by(1)
+      end
+
+      it 'letter is not delivered to anyone else' do
+        subject
+        person.drop(1).each do |individual|
+          expect(delivery_method.delivered_to?(individual)).to be_zero
+        end
+      end
+    end
+  end
 end

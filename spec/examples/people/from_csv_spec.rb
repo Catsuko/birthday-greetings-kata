@@ -20,8 +20,15 @@ RSpec.describe People::FromCSV do
     end
 
     it 'each row provides details' do
-      expected = CSV.read(csv_path, headers: true).map do
-        |row| [anything, row.to_h.transform_keys(&:to_sym)]
+      expected = CSV.read(csv_path, headers: true).map do |row| 
+        [anything, hash_including(first_name: row['first_name'], last_name: row['last_name'])]
+      end
+      expect { |b| subject.fill_out(&b) }.to yield_successive_args(*expected)
+    end
+
+    it 'birthdays are parsed as a date' do
+      expected = CSV.read(csv_path, headers: true).map do |row|
+        [anything, hash_including(date_of_birth: Date.parse(row['date_of_birth']))]
       end
       expect { |b| subject.fill_out(&b) }.to yield_successive_args(*expected)
     end
