@@ -152,3 +152,21 @@ Next steps:
 - Birthday Value Object
 - Conversion of date to value object in FromCSV
 - Policy for birthday users
+
+---
+
+Main requirements are now completed except for an actual implementation of an email client but that would be trivial to do, see a skeleton version in `deliveries/smtp`.
+
+Next is the bonus requirements of dealing with birthdays on February 29th. My initial questions (see the README) about implementing this:
+
+>- Is it clear what part of the system can be extended to provide this feature?
+
+  Yes, the policy module can be extended to provide a new condition for leap year birthdays.
+>- Do existing systems need to be changed to fit this feature in?
+
+  No, a new policy can be defined to be used with the conditional letter decorator.
+>- Does refactoring or implementing this feature cause existing tests to break?
+
+  No, feature can be implemented without touching any existing behaviour.
+
+  We will see if this holds up when it is implemented but I feel confident that it will be easy to add.
