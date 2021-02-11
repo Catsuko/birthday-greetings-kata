@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Extensions::CompositeDelegator do
+RSpec.describe Core::CompositeDelegator do
   let(:individuals) do
     [
       People::FromHash(name: 'Burgundy'),

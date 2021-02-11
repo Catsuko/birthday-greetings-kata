@@ -1,4 +1,4 @@
-module Extensions
+module Core
   class CompositeDelegator
     include Composite
 

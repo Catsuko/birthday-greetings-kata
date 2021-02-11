@@ -1,4 +1,4 @@
-module Extensions
+module Core
   module Composite
     include Enumerable
 

@@ -1,10 +1,10 @@
 require 'csv'
 require_relative './from_hash'
-require_relative '../extensions/composite'
+require_relative '../core/composite'
 
 module People
   class FromCSV
-    include ::Extensions::Composite
+    include ::Core::Composite
 
     def initialize(csv_path)
       @csv_path = csv_path

@@ -24,7 +24,7 @@ RSpec.describe 'sending letters' do
 
   describe 'when there are multiple recipients' do
     let(:person) do
-      Extensions::CompositeDelegator.new([
+      Core::CompositeDelegator.new([
         People::FromHash.new(name: 'Steve'),
         People::FromHash.new(name: 'Sarah'),
         People::FromHash.new(name: 'Terry')
@@ -41,7 +41,7 @@ RSpec.describe 'sending letters' do
   describe 'when sending multiple letters' do
     let(:person) { People::FromHash.new(name: 'Alphonse') }
     let(:messages) { %w[Hello What Goodbye] }
-    let(:letter) { Extensions::CompositeDelegator.new(messages.map { |message| Letters::Template.new(message) }) }
+    let(:letter) { Core::CompositeDelegator.new(messages.map { |message| Letters::Template.new(message) }) }
 
     it 'each letter is delivered' do
       subject
@@ -54,7 +54,7 @@ RSpec.describe 'sending letters' do
   describe 'when sending letters to people with certain details' do
     let(:lisa) { People::FromHash.new(name: 'Lisa') }
     let(:bart) { People::FromHash.new(name: 'Bart') }
-    let(:person) { Extensions::CompositeDelegator.new([lisa, bart]) }
+    let(:person) { Core::CompositeDelegator.new([lisa, bart]) }
     let(:letter) do
       Letters::Conditional.new(
         Letters::Template.new('Hey Bart'),
