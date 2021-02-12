@@ -170,3 +170,12 @@ Next is the bonus requirements of dealing with birthdays on February 29th. My in
   No, feature can be implemented without touching any existing behaviour.
 
   We will see if this holds up when it is implemented but I feel confident that it will be easy to add.
+
+  ---
+
+  First difficulties with extra requirement is where this behaviour should live. Current thoughts:
+  1. custom date class that works leap behaviour into eqls
+  2. policy decorator that wraps the annual event\date reached policies
+  3. new policy altogether
+
+I think 2 is probably the way to go, 1. seems complicated trying to compare non leap year dates with leap year dates and I think 3 would duplicate much of what existing policies are already doing.

@@ -12,11 +12,11 @@ module Policies
   private
 
     def same_date_and_month?(date)
-      current_date.day == date.day && current_date.month == date.month
+      current_date == Date.new(current_date.year, date.month, date.day)
     end
 
     def current_date
-      @current.call.to_date
+      @current.call
     end
   end
 end

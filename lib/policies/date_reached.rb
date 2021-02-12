@@ -6,7 +6,7 @@ module Policies
     end
 
     def evaluate?(details)
-      @current.call.to_date == details.fetch(@key).to_date unless details[@key].nil?
+      @current.call == details.fetch(@key).to_date unless details[@key].nil?
     end
   end
 end
