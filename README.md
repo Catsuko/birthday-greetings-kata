@@ -17,3 +17,26 @@ After building a solution, try to tackle this extra requirement:
 - Is it clear what part of the system can be extended to provide this feature?
 - Do existing systems need to be changed to fit this feature in?
 - Does refactoring or implementing this feature cause existing tests to break?
+
+## Final Solution
+
+```ruby
+require 'birthday_greetings'
+
+email = Delivery::Smtp.new
+people = People::FromCSV.new('path/to/people.csv')
+greeting = Letters::Conditional.new(
+  Letters::Template.new(%Q(
+    Happy Birthday {first_name},
+
+    Hopefully your day is swell!
+
+    Regards,
+
+    The birthday crew
+  )),
+  policy: Policies::LeapYearInclusiveEvent.new(Date.today.to_proc, key: :date_of_birth)
+)
+
+letter.send_to(people, via: email)
+```
